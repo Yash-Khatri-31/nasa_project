@@ -21,11 +21,11 @@ async function httpSubmitLaunch(launch) {
       method:"post",
       header:{"Content-type":"application/json"},
       body:JSON.stringify(launch),
-    })
+    });
   } catch(err){
     return {
       ok:false,
-    }
+    };
   }
 }
 
