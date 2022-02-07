@@ -7,7 +7,7 @@ function httpGetAllLaunches(req,res) {
 function httpAddNewLaunch(req,res){
     
     const launch = req.body;
-    console.log(launch)
+    console.log("launch in controller",launch)
     if(!launch.mission){
         return res.status(400).json({
             err:'Missing required Mission'
