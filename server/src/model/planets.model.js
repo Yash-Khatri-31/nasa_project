@@ -42,12 +42,12 @@ async function getAllPlanets(){
     return await planets.find({})
 }
 
-async function savePlanet(planet){
+async function savePlanet(data){
     try{
         return await planets.updateOne({
-            kepler_name: planet.kepler_name
+            kepler_name: data.kepler_name
         },{
-            kepler_name: planet.kepler_name
+            kepler_name: data.kepler_name
         },{
             upsert: true
         })
