@@ -1,13 +1,12 @@
 const {getAllLaunches, addNewLaunch, existsLauchWithId, abortLaunchById} = require('../../model/launches.model');
 
-function httpGetAllLaunches(req,res) {
-    return res.status(200).json(getAllLaunches());
+async function httpGetAllLaunches(req,res) {
+    return await res.status(200).json(getAllLaunches());
 }
 
 function httpAddNewLaunch(req,res){
     
     const launch = req.body;
-    console.log("launch in controller",launch)
     if(!launch.mission){
         return res.status(400).json({
             err:'Missing required Mission'
