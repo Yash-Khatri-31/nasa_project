@@ -1,10 +1,10 @@
-const {getAllLaunches, addNewLaunch, existsLauchWithId, abortLaunchById} = require('../../model/launches.model');
+const {getAllLaunches, addNewLaunch, existsLauchWithId, abortLaunchById, scheduleNewLaunch} = require('../../model/launches.model');
 
-function httpGetAllLaunches(req,res) {
-    return res.status(200).json(getAllLaunches());
+async function httpGetAllLaunches(req,res) {
+    return res.status(200).json( await getAllLaunches());
 }
 
-function httpAddNewLaunch(req,res){
+async function httpAddNewLaunch(req,res){
     
     const launch = req.body;
     if(!launch.mission){
@@ -32,20 +32,28 @@ function httpAddNewLaunch(req,res){
         //a valid date cannot be converted to number, i think
     }
 
-    addNewLaunch(launch);
-    return res.status(201).json(launch)
+    await scheduleNewLaunch(launch);
+    console.log(launch)
+    return res.status(200).json(launch)
+
+    // addNewLaunch(launch);
+    // return res.status(201).json(launch)
 }
 
-function httpAbortLaunch(req,res){
+async function httpAbortLaunch(req,res){
     const launchid = Number(req.params.id);
-    if(!existsLauchWithId(launchid)){
+    const launchExists = await existsLauchWithId(launchid);
+    if(!launchExists){
         return res.status(404).json({
             err:"Launch not found"
         })
     }
 
-    const aborted =abortLaunchById(launchid)
-    return res.status(200).json(aborted);
+    const aborted = await abortLaunchById(launchid)
+    if(!aborted){
+        return res.status(400).json({error:"Launch not aborted ok/nModified not valid"})
+    }
+    return res.status(200).json({ok:true});
 } 
 
 module.exports = {httpGetAllLaunches , httpAddNewLaunch, httpAbortLaunch};

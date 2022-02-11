@@ -14,14 +14,20 @@ function isHabitable(planet) {
      ///returns true if confirmed
 }
 
-function loadPlanetsData(){
+async function getAllPlanets(){
+    return await planets.find({},  {
+        '__v':0 , '_id':0
+    })
+}
+
+async function loadPlanetsData(){
     return new Promise((resolve,reject) => {
         fs.createReadStream(path.join(__dirname,'..','..','data','kepler_data.csv'))
         .pipe(parse({
             comment: '#',
             columns: true
         }))
-        .on('data' , (data) => {
+        .on('data' , async (data) => {
             if (isHabitable(data)){
                 savePlanet(data)         
             }
@@ -37,10 +43,6 @@ function loadPlanetsData(){
         });
     });
 };
-
-async function getAllPlanets(){
-    return await planets.find({})
-}
 
 async function savePlanet(data){
     try{
