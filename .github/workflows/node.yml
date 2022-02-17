@@ -14,4 +14,3 @@ jobs:
         with: 
           node-version: '16'
       - run: npm run build --prefix client
-      - run: npm run watch --prefix server
