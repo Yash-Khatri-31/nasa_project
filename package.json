@@ -10,9 +10,11 @@
     "server": "npm run watch --prefix server",
     "client": "npm start --prefix client",
     "watch": "npm-run-all -p server client",
+    "buildClient": "npm run build --prefix client",
+    "startServer": "npm run start --prefix server",
     "test": "npm run test --prefix server && npm run test --prefix client",
-    "deploy": "npm run start --prefix server",
-    "deploy-cluster": "npm run cluster --prefix server"
+    "deploy": "npm-run-all buildClient startServer",
+    "deploy-cluster": "npm-run-all build --prefix client cluster --prefix server"
   },
   "keywords": [],
   "author": "",
